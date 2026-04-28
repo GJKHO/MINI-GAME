@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Ball Battle - Offline Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -18,9 +18,9 @@
             <input type="text" id="nicknameInput" placeholder="Enter your nickname" maxlength="10" value="Player">
             <button id="startBtn">Start Game</button>
             <div class="controls-hint">
-                <p>Mouse: Move</p>
-                <p>Space: Split</p>
-                <p>W: Eject Mass</p>
+                <p>Mouse / Touch: Move</p>
+                <p>Space / Split button: Split</p>
+                <p>W / Eject button: Eject Mass</p>
             </div>
         </div>
     </div>
@@ -35,6 +35,10 @@
         </div>
         <div id="scoreBox">
             Mass: <span id="scoreVal">0</span>
+        </div>
+        <div id="mobileControls">
+            <button id="btnSplit" type="button">SPLIT</button>
+            <button id="btnEject" type="button">EJECT</button>
         </div>
     </div>
 

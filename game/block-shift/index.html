@@ -2,30 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"/>
 <title>Block Shift</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:100%; height:100%; }
   body {
     background:#0f0f13;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    height:100vh;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     color:#e8e8f0;
     overflow:hidden;
     user-select:none;
+    padding:8px;
+    touch-action:none;
   }
   #hud {
     display:flex;
-    gap:28px;
-    margin-bottom:12px;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:14px;
+    margin-bottom:10px;
     font-size:13px;
     font-weight:600;
     color:#8888a0;
     letter-spacing:0.5px;
+    flex-shrink:0;
+    text-align:center;
   }
   #hud span { color:#e8e8f0; }
   #timer-el.urgent { color:#f87171 !important; }
@@ -35,6 +41,10 @@
     border:1px solid rgba(255,255,255,0.08);
     box-shadow:0 0 60px rgba(167,139,250,0.12);
     cursor:pointer;
+    width: min(480px, calc(100vw - 16px), calc((100vh - 70px) * 480 / 460));
+    height:auto;
+    aspect-ratio:480 / 460;
+    touch-action:none;
   }
   #overlay {
     position:fixed;

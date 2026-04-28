@@ -114,12 +114,34 @@ function init() {
         mouseY = (e.clientY - height / 2) / cameraZoom + cameraY;
     });
 
+    // Touch: pointer move via touchstart/touchmove
+    function handleTouch(e) {
+        if (!e.touches || !e.touches[0]) return;
+        e.preventDefault();
+        const t = e.touches[0];
+        mouseX = (t.clientX - width / 2) / cameraZoom + cameraX;
+        mouseY = (t.clientY - height / 2) / cameraZoom + cameraY;
+    }
+    canvas.addEventListener('touchstart', handleTouch, { passive: false });
+    canvas.addEventListener('touchmove',  handleTouch, { passive: false });
+
     // 键盘操作
     window.addEventListener('keydown', (e) => {
         if (!gameRunning) return;
         if (e.code === 'Space') splitPlayer();
         if (e.code === 'KeyW') ejectMass();
     });
+
+    // Mobile button controls
+    function bindBtn(id, fn) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const handler = (ev) => { ev.preventDefault(); if (gameRunning) fn(); };
+        el.addEventListener('click', handler);
+        el.addEventListener('touchstart', handler, { passive: false });
+    }
+    bindBtn('btnSplit', splitPlayer);
+    bindBtn('btnEject', ejectMass);
 
     // 生成食物
     for (let i = 0; i < config.numFoods; i++) spawnFood();

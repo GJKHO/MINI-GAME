@@ -47,6 +47,8 @@ a { color: inherit; text-decoration: none; }
   padding: 0 28px;
 }
 
+img, svg, canvas, iframe { max-width: 100%; }
+
 /* ===== Scrollbar ===== */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -776,14 +778,28 @@ a { color: inherit; text-decoration: none; }
 .footer-inner nav a:hover { color: var(--white); }
 
 /* ===== Play Page ===== */
+html, body { overscroll-behavior: none; }
+
+.play-page {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .play-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  height: 58px;
+  padding: 0 16px;
+  height: 52px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  padding-top: env(safe-area-inset-top);
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
 }
 
 .back-btn {
@@ -811,12 +827,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 .game-frame-wrap {
+  flex: 1;
   width: 100%;
-  height: calc(100vh - 58px);
   background: #000;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
+  min-height: 0;
 }
 
 .game-frame-wrap iframe {
@@ -845,15 +862,77 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 680px) {
-  .featured-grid { grid-template-columns: 1fr; }
-  .games-grid    { grid-template-columns: 1fr; }
-  .about-grid    { grid-template-columns: 1fr; }
-  .filter-bar    { display: flex; }
+@media (max-width: 980px) {
+  .container,
+  .header-inner { padding: 0 18px; }
+  .games-section,
+  .company-section,
+  .about-section { padding: 64px 0; }
+  .contact-section { padding: 72px 0; }
+  .about-grid    { grid-template-columns: repeat(2, 1fr); }
+  .featured-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+}
 
-  .hero h1 { font-size: 34px; letter-spacing: -1px; }
-  .header-inner { height: 60px; padding: 0 16px; }
-  .main-nav a { font-size: 13px; padding: 6px 10px; }
+@media (max-width: 720px) {
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured-thumb { width: 60px; height: 60px; }
+  .featured-card { padding: 18px 10px; }
+
+  .games-grid    { grid-template-columns: 1fr; gap: 14px; }
+  .about-grid    { grid-template-columns: 1fr; }
+  .company-intro { grid-template-columns: 1fr; gap: 28px; }
+  .company-stats { grid-template-columns: repeat(2, 1fr); }
+
+  .hero { padding: 56px 0 0; }
+  .hero h1 { font-size: clamp(32px, 9vw, 44px); letter-spacing: -1px; }
+  .hero-desc { font-size: 15px; margin-bottom: 24px; }
+  .hero-actions { margin-bottom: 48px; }
+  .hero-featured { padding: 36px 0; }
+  .hero-featured h2 { font-size: 17px; }
+
+  .games-section h2,
+  .company-intro-text h2 { font-size: clamp(26px, 7vw, 36px); }
+  .about-section h2,
+  .contact-inner h2 { font-size: clamp(22px, 6vw, 30px); }
+
+  .header-inner { height: 58px; padding: 0 14px; }
+  .logo-mark { width: 34px; height: 34px; font-size: 12px; }
+  .logo-text strong { font-size: 14px; }
+  .logo-text small { font-size: 10px; }
+  .main-nav { gap: 0; }
+  .main-nav a { font-size: 13px; padding: 6px 8px; }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn { white-space: nowrap; flex-shrink: 0; }
+
+  .card-thumb { height: 140px; }
+  .game-card h3 { font-size: 16px; }
+  .game-card p  { font-size: 12.5px; }
+
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; }
+  .footer-inner nav { gap: 14px; flex-wrap: wrap; }
+
+  .contact-email { font-size: 15px; padding: 12px 22px; word-break: break-all; }
+
+  .play-header { height: 48px; padding: 0 12px; gap: 8px; }
+  .back-btn { font-size: 12px; padding: 5px 10px; }
+  .play-title { font-size: 13px; }
+}
+
+@media (max-width: 420px) {
+  .featured-grid { grid-template-columns: 1fr; }
+  .company-stats { grid-template-columns: 1fr; }
+  .logo-text small { display: none; }
+  .container,
+  .header-inner { padding: 0 14px; }
 }
 
 /* ===== Fade-in animation ===== */

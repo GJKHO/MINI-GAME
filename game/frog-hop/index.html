@@ -2,24 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
   <title>Frog Crossing</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width:100%; height:100%; }
 
     body {
       background: #1a2e1a;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
       font-family: Arial, sans-serif;
       overflow: hidden;
+      touch-action: none;
     }
 
+    /* Wrapper width = smallest of design width, viewport width, height-derived width */
     #wrapper {
       position: relative;
-      width: 480px;
+      width: min(480px, 100vw, calc((100vh - 44px) * 480 / 520));
+      display: flex;
+      flex-direction: column;
     }
 
     #hud {
@@ -39,6 +43,10 @@
     canvas {
       display: block;
       border-radius: 0 0 8px 8px;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 480 / 520;
+      touch-action: none;
     }
 
     #overlay {
@@ -248,20 +256,27 @@ document.addEventListener('keydown', e => {
   moveFrog(dir);
 });
 
-// Touch support
+// Touch support: tap to hop forward, swipe to choose direction
 let touchStart = null;
 canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
   touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-}, { passive: true });
+}, { passive: false });
 canvas.addEventListener('touchend', e => {
-  if (!touchStart || state !== 'play') return;
+  if (!touchStart || state !== 'play') { touchStart = null; return; }
+  e.preventDefault();
   const dx = e.changedTouches[0].clientX - touchStart.x;
   const dy = e.changedTouches[0].clientY - touchStart.y;
-  if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
-  if (Math.abs(dx) > Math.abs(dy)) moveFrog(dx > 0 ? 'right' : 'left');
-  else moveFrog(dy > 0 ? 'down' : 'up');
+  if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+    // Treat as tap = hop forward
+    moveFrog('up');
+  } else if (Math.abs(dx) > Math.abs(dy)) {
+    moveFrog(dx > 0 ? 'right' : 'left');
+  } else {
+    moveFrog(dy > 0 ? 'down' : 'up');
+  }
   touchStart = null;
-}, { passive: true });
+}, { passive: false });
 
 function moveFrog(dir) {
   const prev = frog.row;

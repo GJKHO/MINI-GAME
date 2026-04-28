@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
   <title>Game | PlayZone</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="play-page">
 
   <header class="play-header">
-    <a href="index.html#games" class="back-btn">← Back to Games</a>
+    <a href="index.html#games" class="back-btn">← Back</a>
     <span class="play-title" id="play-title">Loading…</span>
   </header>
 
@@ -47,7 +47,7 @@
 
     const gamePath = 'game/' + gameId + '/index.html';
     const wrap = document.getElementById('game-wrap');
-    wrap.innerHTML = '<iframe src="' + gamePath + '" allowfullscreen></iframe>';
+    wrap.innerHTML = '<iframe src="' + gamePath + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
   </script>
 
 </body>
