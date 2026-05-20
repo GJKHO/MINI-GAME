@@ -273,10 +273,14 @@
         window.Telegram?.WebApp?.ready();
         window.Telegram?.WebApp?.expand();
 
-        const isTelegram = !!(window.Telegram?.WebApp?.initData);
-        const AdController = (isTelegram && window.Adsgram)
-            ? window.Adsgram.init({ blockId: "30685" })
-            : null;
+        let AdController = null;
+        try {
+            if (window.Adsgram) {
+                AdController = window.Adsgram.init({ blockId: "30685" });
+            }
+        } catch (e) {
+            console.log('Adsgram init failed:', e);
+        }
 
         function showInGameAd() {
             if (!AdController) return;
@@ -451,7 +455,7 @@
         // Start game
         function startGame() {
             document.getElementById('instructions').style.display = 'none';
-            if (AdController) document.getElementById('inGameAdBtn').style.display = 'block';
+            document.getElementById('inGameAdBtn').style.display = AdController ? 'block' : 'none';
             gameState.isPlaying = true;
             gameState.level = 1;
             gameState.score = 0;
