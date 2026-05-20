@@ -282,6 +282,28 @@
             console.log('Adsgram init failed:', e);
         }
 
+        // ===== 临时调试浮层（定位完问题后请删除）=====
+        (function debugOverlay() {
+            var wa = window.Telegram && window.Telegram.WebApp;
+            var initData = wa ? wa.initData : null;
+            var info = [
+                'window.Telegram: ' + (window.Telegram ? 'YES' : 'NO'),
+                'WebApp: ' + (wa ? 'YES' : 'NO'),
+                'platform: ' + (wa ? wa.platform : 'N/A'),
+                'version: ' + (wa ? wa.version : 'N/A'),
+                'initData empty: ' + (initData ? ('NO (len=' + initData.length + ')') : 'YES (空!)'),
+                'user: ' + (wa && wa.initDataUnsafe && wa.initDataUnsafe.user ? (wa.initDataUnsafe.user.id) : 'N/A'),
+                'window.Adsgram: ' + (window.Adsgram ? 'YES' : 'NO'),
+                'AdController: ' + (AdController ? 'YES' : 'NO')
+            ].join('\n');
+            var box = document.createElement('div');
+            box.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:rgba(0,0,0,.85);color:#0f0;font:12px/1.5 monospace;padding:8px;white-space:pre;';
+            box.textContent = info;
+            box.onclick = function () { box.style.display = 'none'; };
+            document.body.appendChild(box);
+        })();
+        // ===== 调试浮层结束 =====
+
         function showInGameAd() {
             if (!AdController) return;
             const btn = document.getElementById('inGameAdBtn');
