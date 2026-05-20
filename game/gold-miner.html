@@ -267,9 +267,14 @@
         </div>
     </div>
 
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <script>
-        const AdController = window.Adsgram
+        window.Telegram?.WebApp?.ready();
+        window.Telegram?.WebApp?.expand();
+
+        const isTelegram = !!(window.Telegram?.WebApp?.initData);
+        const AdController = (isTelegram && window.Adsgram)
             ? window.Adsgram.init({ blockId: "30685" })
             : null;
 
